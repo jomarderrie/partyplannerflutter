@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:intl/intl.dart';
 
 import 'party.dart';
+import 'screens/AddPartyScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,6 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  void _addParty(party partyObj) {
+    setState(() {
+      _parties.add(partyObj);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: _parties.length,
           itemBuilder: (context, index) {
             final party = _parties[index];
-            // final formattedDate = DateFormat.yMd().add_jm().format(party.date);
+            final formattedDate = DateFormat.yMd().add_jm().format(party.startDate);
 
             return ListTile(
               title: Text(party.name),
-              // subtitle: Text(formattedDate),
+              subtitle: Text(formattedDate),
             );
           },
         ),
@@ -96,9 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
               MaterialPageRoute(builder: (context) => AddPartyScreen()),
             );
 
-            // if (party != null) {
-            //   _addParty(party);
-            // }
+            if (party != null) {
+              _addParty(party);
+            }
           },
           tooltip: 'Add Party',
           child: Icon(Icons.add),
