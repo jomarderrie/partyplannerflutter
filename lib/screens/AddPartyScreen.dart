@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:timezone/timezone.dart' as tz;
+import 'package:device_calendar/device_calendar.dart';
 import '../party.dart';
 
 class AddPartyScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  Location _currentLocation = tz.getLocation('Europe/Amsterdam');
   DateTime? _selectedDate;
   DateTime? endPartyDate;
 
@@ -42,7 +44,26 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
       }
     }
   }
+  Future<void> addEventToCalander() async {
+    final calendar = await DeviceCalendarPlugin().retrieveCalendars();
+    final events = <Event>[
+      Event(   calendar.data?.first.id,
+        title: _nameController.text,
+        start: DateTime.now().to,
+        end: DateTime.now().add(Duration(hours: 1)),
+        description: _descriptionController.text
+      ),
+    ];
+    // final event = CalendarEvent(
+    //   title: 'My event',
+    //   description: 'Description of my event',
+    //   startDate: DateTime.now(),
+    //   endDate: DateTime.now().add(Duration(hours: 2)),
+    //   location: '123 Main St, Anytown USA',
+    // );
 
+    // await FlutterNativeCalendar.addEvent(event);
+  }
   Future<void> _endPartyDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -133,9 +154,10 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
             final partyObj = party(
               name: _nameController.text,
               description: _descriptionController.text,
-             startDate: _selectedDate!,
+              startDate: _selectedDate!,
               endDate: endPartyDate!,
             );
+            addEventToCalander();
 
             Navigator.pop(context, partyObj);
           }
@@ -145,4 +167,6 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
       ),
     );
   }
+
+
 }
