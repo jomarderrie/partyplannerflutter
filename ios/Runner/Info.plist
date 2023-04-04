@@ -8,6 +8,8 @@
 <key>NSContactsUsageDescription</key>
 <string>Access contacts for event attendee editing.</string>
 <key>NSContactsUsageDescription</key>
+<string>Access contacts for event attendee editing.</string>
+<key>NSContactsUsageDescription</key>
 <string>This app requires contacts access to function properly.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

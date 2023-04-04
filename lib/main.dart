@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 
 import 'party.dart';
 import 'screens/AddPartyScreen.dart';
-
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzdata;
 void main() {
   runApp(const MyApp());
+  tzdata.initializeTimeZones();
 }
 
 class MyApp extends StatelessWidget {
