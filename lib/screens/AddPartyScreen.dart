@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:partyplanner/helper/helper.dart';
 import '../party.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
@@ -32,11 +33,24 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
     setLocalLocation(_currentLocation);
   }
 
-
   @override
   void initState() {
     calanderPermission();
+    final dateTime = DateTime.now().add(Duration(hours: 1));
+    final dateTime2 = DateTime.now().add(Duration(hours: 2));
+    Party party = Party(id: "13", name: "asd", description: "yup", startDate: dateTime.toIso8601String(), endDate: dateTime2.toIso8601String());
+    print(file_data);
+    createNewParty(party);
   }
+
+  void createNewParty(Party newParty) async {
+    _formKey.currentState?.save();
+    Map<String, dynamic> party = newParty.toJson();
+    file_data['parties'].add(party);
+    await writeToFile(file_data);
+    print(file_data);
+  }
+
   Future<void> calanderPermission() async {
     print("got hit");
     var status = await Permission.calendar.status;
@@ -47,10 +61,6 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
     if (status.isGranted) {
     }
   }
-
-
-
-
 
   void _selectDate() async {
     final picked = await showDatePicker(
@@ -65,7 +75,6 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
         context: context,
         initialTime: TimeOfDay.now(),
       );
-
       if (selectedTime != null) {
         setState(() {
           _selectedDate = DateTime(
@@ -79,37 +88,28 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
       }
     }
   }
+
+
   Future<void> addEventToCalander() async {
     final calendar = await DeviceCalendarPlugin().retrieveCalendars();
-    print(calendar.data?.first.name);
-    var uuid = Uuid();
     final event =
-      Event(   calendar.data?.first.id,
+    Event(calendar.data?.first.id,
         title: _nameController.text,
         start: tz.TZDateTime.from(_selectedDate!, _currentLocation),
         end: tz.TZDateTime.from(endPartyDate!, _currentLocation),
         description: _descriptionController.text
-      );
+    );
     var status = await Permission.calendar.request();
-    if(status.isGranted){
+    if (status.isGranted) {
       final result = await DeviceCalendarPlugin().createOrUpdateEvent(event);
       if (result!.isSuccess && result.data != null) {
         print('Event added to calendar.');
       } else {
         print('Failed to add event to calendar.');
       }
-
-      // final event = CalendarEvent(
-      //   title: 'My event',
-      //   description: 'Description of my event',
-      //   startDate: DateTime.now(),
-      //   endDate: DateTime.now().add(Duration(hours: 2)),
-      //   location: '123 Main St, Anytown USA',
-      // );
-
-      // await FlutterNativeCalendar.addEvent(event);
     }
   }
+
   Future<void> _endPartyDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -225,10 +225,10 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
                                     id: uuid.v4(),
                                     name: _nameController.text,
                                     description: _descriptionController.text,
-                                    startDate: _selectedDate!,
-                                    endDate: endPartyDate!,
+                                    startDate: _selectedDate!.toIso8601String(),
+                                    endDate: endPartyDate!.toIso8601String(),
                                   );
-                                  createNewParty();
+                                  createNewParty(partyObj);
                                   addEventToCalander();
 
                                   Navigator.pop(context, partyObj);
@@ -261,11 +261,4 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
 
     );
   }
-
-  void createNewParty() {
-    _formKey.currentState?.save();
-
-  }
-
-
 }

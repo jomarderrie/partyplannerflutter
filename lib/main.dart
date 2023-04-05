@@ -63,32 +63,41 @@ class _MyHomePageState extends State<MyHomePage> {
   String _jsonString = '';
   bool _loading = true;
 
-  @override
-  void needInit() async {
+  void createFileOnInit() async {
     filePath = await localFile;
     bool filePathExist = filePath.existsSync();
     if(!filePathExist){
       await initFile();
-      // _initData();
+      _initData();
+    }else{
+      _initData();
     }
   }
-  // void _initData() async{
-  //   filePath = await localFile;
-  //   try {
-  //     _jsonString = await filePath.readAsString();
-  //
-  //     file_data = jsonDecode(_jsonString);
-  //     parties = (file_data['parties'] as List)
-  //         .map((data) => new Party.fromJson(data))
-  //         .toList();
-  //     setState(() {
-  //       this._parties = parties;
-  //       _loading = false;
-  //     });
-  //   } catch (e) {
-  //     print('Tried reading _file error: $e');
-  //   }
-  // }
+
+  @override
+  void initState() {
+    createFileOnInit();
+
+  }
+
+  void _initData() async{
+    filePath = await localFile;
+    try {
+      _jsonString = await filePath.readAsString();
+      file_data = jsonDecode(_jsonString);
+      print(file_data);
+     var parties2 = (file_data['parties'] as List)
+          .map((data) => Party.fromJson(data))
+          .toList();
+      print(parties2);
+      setState(() {
+        _parties = parties2;
+        _loading = false;
+      });
+    } catch (e) {
+      print('Tried reading _file error: $e');
+    }
+  }
   void _addParty(Party partyObj) {
     setState(() {
       _parties.add(partyObj);
@@ -111,11 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: _parties.length,
           itemBuilder: (context, index) {
             final party = _parties[index];
-            final formattedDate = DateFormat.yMd().add_jm().format(party.startDate);
+            // final formattedDate = DateFormat.yMd().add_jm().format(party.startDate);
 
             return ListTile(
               title: Text(party.name),
-              subtitle: Text(formattedDate),
+              subtitle: Text(party.startDate),
             );
           },
         ),

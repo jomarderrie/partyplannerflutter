@@ -5,7 +5,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-File filePath = new File("");
+import '../party.dart';
+
+File filePath = File("");
 
 Map<String, dynamic> file_data = {};
 
@@ -16,7 +18,8 @@ Future<String> get _localPath async {
 
 Future<File> get localFile async {
   final path = await _localPath;
-  return File('$path/data');
+  print(path);
+  return File('$path/data.json');
 }
 
 Future initFile() async {
@@ -32,6 +35,19 @@ Future initFile() async {
   }
 }
 
+void addNewPartyToFile(Party party){
+
+}
+
+
+Future writeToFile(dynamic file) async {
+  String jsonString = jsonEncode(file);
+  try {
+    filePath.writeAsStringSync(jsonString);
+  } catch (e) {
+    print("Something went wrong $e");
+  }
+}
 
 class Helper {
   Future writeToFile(dynamic file) async {
