@@ -6,6 +6,9 @@ PODS:
   - Flutter (1.0.0)
   - flutter_native_timezone (0.0.1):
     - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - permission_handler_apple (9.0.4):
     - Flutter
 
@@ -14,6 +17,7 @@ DEPENDENCIES:
   - device_calendar (from `.symlinks/plugins/device_calendar/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 EXTERNAL SOURCES:
@@ -25,6 +29,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_native_timezone:
     :path: ".symlinks/plugins/flutter_native_timezone/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
 
@@ -33,8 +39,9 @@ SPEC CHECKSUMS:
   device_calendar: 9cb33f88a02e19652ec7b8b122ca778f751b1f7b
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
 
-PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+PODFILE CHECKSUM: 627524a7bb025d44e6318a14fb4f94b604379a0b
 
 COCOAPODS: 1.11.3

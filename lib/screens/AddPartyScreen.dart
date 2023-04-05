@@ -5,6 +5,8 @@ import 'package:device_calendar/device_calendar.dart';
 import '../party.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:uuid/uuid.dart';
+
 
 class AddPartyScreen extends StatefulWidget {
   @override
@@ -29,6 +31,26 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
     _currentLocation = getLocation(timezone);
     setLocalLocation(_currentLocation);
   }
+
+
+  @override
+  void initState() {
+    calanderPermission();
+  }
+  Future<void> calanderPermission() async {
+    print("got hit");
+    var status = await Permission.calendar.status;
+    if (status.isDenied || status.isPermanentlyDenied) {
+      // request permission
+      status = await Permission.calendar.request();
+    }
+    if (status.isGranted) {
+    }
+  }
+
+
+
+
 
   void _selectDate() async {
     final picked = await showDatePicker(
@@ -60,7 +82,7 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
   Future<void> addEventToCalander() async {
     final calendar = await DeviceCalendarPlugin().retrieveCalendars();
     print(calendar.data?.first.name);
-
+    var uuid = Uuid();
     final event =
       Event(   calendar.data?.first.id,
         title: _nameController.text,
@@ -158,7 +180,7 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
               ListTile(
                 title: Text(_selectedDate == null
                     ? 'Select Party start Date and Time'
-                    : 'Party Date end and Time: ${DateFormat.yMd().add_jm().format(_selectedDate!)}'),
+                    : 'Party date end and Time: ${DateFormat.yMd().add_jm().format(_selectedDate!)}'),
                 onTap: _selectDate,
               ),
               const SizedBox(height: 16.0),
@@ -168,28 +190,81 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
                     : 'Party Date end and Time: ${DateFormat.yMd().add_jm().format(endPartyDate!)}'),
                 onTap: _endPartyDate,
               ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child:   ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Color(0xFF0D47A1),
+                                      Color(0xFF1976D2),
+                                      Color(0xFF42A5F5),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.all(16.0),
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate() && _selectedDate != null && endPartyDate != null) {
+                                  var uuid = Uuid();
+                                  final partyObj = Party(
+                                    id: uuid.v4(),
+                                    name: _nameController.text,
+                                    description: _descriptionController.text,
+                                    startDate: _selectedDate!,
+                                    endDate: endPartyDate!,
+                                  );
+                                  createNewParty();
+                                  addEventToCalander();
+
+                                  Navigator.pop(context, partyObj);
+                                }
+                              },
+                              child: const Text('Save party'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ]
+              ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate() && _selectedDate != null && endPartyDate != null) {
-            final partyObj = party(
-              name: _nameController.text,
-              description: _descriptionController.text,
-              startDate: _selectedDate!,
-              endDate: endPartyDate!,
-            );
-            addEventToCalander();
 
-            Navigator.pop(context, partyObj);
-          }
-        },
-        tooltip: 'Save',
-        child: Icon(Icons.save),
-      ),
+      // Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Expanded(
+      //         flex: 1,
+      //         child: TextButton(
+      //           child: Text(text),
+      //         ),
+      //       )
+      //     ]
+      // ),
+
     );
+  }
+
+  void createNewParty() {
+    _formKey.currentState?.save();
+
   }
 
 

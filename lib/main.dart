@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -6,6 +8,8 @@ import 'party.dart';
 import 'screens/AddPartyScreen.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzdata;
+import 'helper/helper.dart';
+
 void main() {
   runApp(const MyApp());
   tzdata.initializeTimeZones();
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter party planner',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter party planner'),
     );
   }
 }
@@ -55,20 +59,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  final List<party> _parties = [];
+  List<Party> _parties = [];
+  String _jsonString = '';
+  bool _loading = true;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void needInit() async {
+    filePath = await localFile;
+    bool filePathExist = filePath.existsSync();
+    if(!filePathExist){
+      await initFile();
+      // _initData();
+    }
   }
-  void _addParty(party partyObj) {
+  // void _initData() async{
+  //   filePath = await localFile;
+  //   try {
+  //     _jsonString = await filePath.readAsString();
+  //
+  //     file_data = jsonDecode(_jsonString);
+  //     parties = (file_data['parties'] as List)
+  //         .map((data) => new Party.fromJson(data))
+  //         .toList();
+  //     setState(() {
+  //       this._parties = parties;
+  //       _loading = false;
+  //     });
+  //   } catch (e) {
+  //     print('Tried reading _file error: $e');
+  //   }
+  // }
+  void _addParty(Party partyObj) {
     setState(() {
       _parties.add(partyObj);
     });
