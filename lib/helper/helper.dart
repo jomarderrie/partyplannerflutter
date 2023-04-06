@@ -35,9 +35,7 @@ Future initFile() async {
   }
 }
 
-void addNewPartyToFile(Party party){
 
-}
 
 
 Future writeToFile(dynamic file) async {

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:partyplanner/screens/PartyDetailScreen.dart';
 
 import 'party.dart';
 import 'screens/AddPartyScreen.dart';
@@ -79,9 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
     createFileOnInit();
   }
 
-
-
-
   void _initData() async{
     filePath = await localFile;
     try {
@@ -123,10 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (context, index) {
             final party = _parties[index];
             // final formattedDate = DateFormat.yMd().add_jm().format(party.startDate);
-
             return ListTile(
               title: Text(party.name),
               subtitle: Text(party.startDate),
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PartyDetailScreen(party: party)),
+                ).then((value) => _initData());
+              }
             );
           },
         ),
@@ -134,7 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             final party = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddPartyScreen()),
+              MaterialPageRoute(builder: (context) => AddPartyScreen(
+              )),
             ).then((value) => _initData());
             print("IjustGOtBack");
             // if (party != null) {

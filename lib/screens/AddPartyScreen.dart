@@ -32,19 +32,19 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
     _currentLocation = getLocation(timezone);
     setLocalLocation(_currentLocation);
   }
-
-  @override
-  void initState() {
-    calanderPermission();
-    final dateTime = DateTime.now().add(Duration(hours: 1));
-    final dateTime2 = DateTime.now().add(Duration(hours: 2));
-    Party party = Party(id: "13", name: "asd", description: "yup", startDate: dateTime.toIso8601String(), endDate: dateTime2.toIso8601String());
-    print(file_data);
-    createNewParty(party);
-  }
+  //
+  // @override
+  // void initState() {
+  //   calanderPermission();
+  //   final dateTime = DateTime.now().add(Duration(hours: 1));
+  //   final dateTime2 = DateTime.now().add(Duration(hours: 2));
+  //   Party party = Party(id: "13", name: "asd", description: "yup", startDate: dateTime.toIso8601String(), endDate: dateTime2.toIso8601String());
+  //   print(file_data);
+  //   createNewParty(party);
+  // }
 
   void createNewParty(Party newParty) async {
-    // _formKey.currentState?.save();
+    _formKey.currentState?.save();
     Map<String, dynamic> party = newParty.toJson();
     file_data['parties'].add(party);
     await writeToFile(file_data);
@@ -52,7 +52,6 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
   }
 
   Future<void> calanderPermission() async {
-    print("got hit");
     var status = await Permission.calendar.status;
     if (status.isDenied || status.isPermanentlyDenied) {
       // request permission
