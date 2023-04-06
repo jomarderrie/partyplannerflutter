@@ -44,7 +44,7 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
   }
 
   void createNewParty(Party newParty) async {
-    _formKey.currentState?.save();
+    // _formKey.currentState?.save();
     Map<String, dynamic> party = newParty.toJson();
     file_data['parties'].add(party);
     await writeToFile(file_data);

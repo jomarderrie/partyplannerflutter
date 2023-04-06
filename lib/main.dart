@@ -77,8 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     createFileOnInit();
-
   }
+
+
+
 
   void _initData() async{
     filePath = await localFile;
@@ -133,11 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
             final party = await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddPartyScreen()),
-            );
-
-            if (party != null) {
-              _addParty(party);
-            }
+            ).then((value) => _initData());
+            print("IjustGOtBack");
+            // if (party != null) {
+            //   _addParty(party);
+            // }
           },
           tooltip: 'Add Party',
           child: Icon(Icons.add),
