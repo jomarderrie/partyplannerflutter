@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:partyplanner/helper/helper.dart';
-import '../party.dart';
+import '../Party.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
@@ -226,6 +226,7 @@ class _AddPartyScreenState extends State<AddPartyScreen> {
                                     description: _descriptionController.text,
                                     startDate: _selectedDate!.toIso8601String(),
                                     endDate: endPartyDate!.toIso8601String(),
+                                    invites: []
                                   );
                                   createNewParty(partyObj);
                                   addEventToCalander();

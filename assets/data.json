@@ -5,7 +5,13 @@
       "name": "goodparty",
       "description": "asddasdas",
       "startDate": "2021-03-15T21:00:49+0100",
-      "endDate": "2021-03-15T21:00:49+0200"
+      "endDate": "2021-03-15T21:00:49+0200",
+      "invited": [
+        {
+          "name": "tata",
+          "referenceId": "asd123asd"
+        }
+      ]
     }
   ]
 }

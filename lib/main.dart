@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:partyplanner/screens/PartyDetailScreen.dart';
 
-import 'party.dart';
+import 'Party.dart';
 import 'screens/AddPartyScreen.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzdata;

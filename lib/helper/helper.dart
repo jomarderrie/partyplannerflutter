@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../party.dart';
+import '../Party.dart';
 
 File filePath = File("");
 
@@ -59,17 +59,6 @@ class Helper {
 
 
 
-  Future<PermissionStatus> getContactPermission() async {
-    final PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus =
-      await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ??
-          PermissionStatus.denied;
-    } else {
-      return permission;
-    }
-  }
+
 
 }
