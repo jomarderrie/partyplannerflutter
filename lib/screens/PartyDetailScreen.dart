@@ -110,15 +110,18 @@ class _PartyDetailScreenState extends State<PartyDetailScreen>{
                             Contact? newContact = await ContactsService.openDeviceContactPicker();
                             if(newContact != null){
                               Person newPersonGoingToParty = Person(referenceId: newContact.identifier!, name: newContact.displayName!);
-                              widget.party.invites.add(newPersonGoingToParty);
+                              setState(() {
+                                widget.party.invites.add(newPersonGoingToParty);
+                              });
                               List<dynamic> parties = file_data['parties'];
                               parties.forEach((party) {
-                                if(party.id == widget.party.id){
+                                if(party['id'] == widget.party.id){
                                   party['invited'] = widget.party.invites;
                                 }
                               });
                               file_data['parties'] = parties;
                               await writeToFile(file_data);
+
                              // parties.
                             }
                             print(newContact);
@@ -148,8 +151,10 @@ class _PartyDetailScreenState extends State<PartyDetailScreen>{
               child: ListView.builder(
                 itemCount: widget.party.invites.length,
                 itemBuilder: ( context, index) {
+                  final invitedPerson = widget.party.invites[index];
                   return ListTile(
-                    title: Text("asd"),
+
+                    title: Text(invitedPerson.name),
                   );
                 },
               ),
