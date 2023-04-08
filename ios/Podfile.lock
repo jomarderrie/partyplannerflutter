@@ -11,6 +11,8 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.0.4):
     - Flutter
+  - share_plus (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
@@ -19,6 +21,7 @@ DEPENDENCIES:
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
 
 EXTERNAL SOURCES:
   contacts_service:
@@ -33,6 +36,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
 
 SPEC CHECKSUMS:
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
@@ -41,6 +46,7 @@ SPEC CHECKSUMS:
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
 
 PODFILE CHECKSUM: 627524a7bb025d44e6318a14fb4f94b604379a0b
 

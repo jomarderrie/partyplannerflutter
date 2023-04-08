@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:partyplanner/helper/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:share_plus/share_plus.dart';
 import '../Person.dart';
 import '../Party.dart';
 
@@ -40,6 +41,9 @@ class _PartyDetailScreenState extends State<PartyDetailScreen>{
     } else {
       return permission;
     }
+  }
+  Future<void> shareInvitation(String subject, String body) async {
+    Share.share("yo deeznuts");
   }
 
   @override
@@ -153,7 +157,13 @@ class _PartyDetailScreenState extends State<PartyDetailScreen>{
                 itemBuilder: ( context, index) {
                   final invitedPerson = widget.party.invites[index];
                   return ListTile(
-
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        shareInvitation("asd", "asdd");
+                        // do something when the button is pressed
+                      },
+                      child: Text('Sent invite'),
+                    ),
                     title: Text(invitedPerson.name),
                   );
                 },
